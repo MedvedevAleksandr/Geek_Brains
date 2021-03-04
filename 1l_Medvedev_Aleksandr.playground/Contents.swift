@@ -53,7 +53,7 @@ print("Сумма вклада с ежегодной капитализацие�
 
 
 // Высчитывание окончательной суммы вклада в одну строку
-var anotherDepositAmount:Decimal = 20_000
+var anotherDepositAmount:Decimal = 30_000
 var anotherAnnualPercentage:Decimal = 12
 var anotherFinalDepositAmount = anotherDepositAmount * pow((1 + (anotherAnnualPercentage/100)), Int(5.0))
 print("Сумма вклада с ежегодной капитализацией процентов через 5 лет составит \(anotherFinalDepositAmount) рублей")
