@@ -1,0 +1,83 @@
+import UIKit
+
+
+// Задание №1. Написать функцию, которая определяет четное число или нет
+
+func evenNumber(a:Int) -> Void {
+    a % 2 == 0 ? print("\(a) является четным числом") : print("\(a) является нечетным числом")
+}
+evenNumber(a: 101)
+
+
+
+func line() {
+    print("===================")
+}
+
+line()
+
+
+
+// Задание №2. Написать функцию, которая определяет, делится ли число без остатка на 3.
+
+func numberIsMultipleOf3(a:Int) -> Void {
+    a % 3 == 0 ? print("\(a) делится на 3 без остатка") : print("\(a) не делится на 3 без остатка")
+}
+numberIsMultipleOf3(a: 101)
+
+line()
+
+
+
+// Задания №3+№4. Создать возрастающий массив из 100 чисел. Удалить из созданного массива все четные числа и числа, которые не делятся на 3 без остатка.
+
+var myArray = Array(1...100)
+myArray = myArray.filter({$0 % 2 != 0})
+myArray = myArray.filter({$0 % 3 != 0})
+print("Массив из нечетных некратных трем чисел:")
+print(myArray)
+
+line()
+
+
+//Задание №5. Написать функцию, которая добавляет в массив новое число Фибоначчи, и добавить при помощи нее 50 элементов.
+
+
+func fibonachi(_ a:Int) -> [Int] {
+ var fib:[Int] = [0, 1]
+    if a == 1 {
+        return [fib[0]]
+    } else if a == 2 {
+        return [fib[0], fib[1]]
+    } else {
+ for _ in 2...a-1 {
+     fib.append(fib[fib.count-1] + fib[fib.count-2])
+    
+ }
+    return fib
+}
+}
+print("Последовательность Фибоначчи:")
+print(fibonachi(50))
+
+
+
+//Задание №6. Заполнить массив из 100 элементов различными простыми числами. Натуральное число, большее единицы, называется простым, если оно делится только на себя и на единицу.
+
+
+line()
+
+func getPrimes(arrPassed: [Int]) -> [Int] {
+    var primes: [Int] = []
+    var newArr = arrPassed
+
+    while let newP = newArr.first {
+        primes.append(newP)
+        newArr = newArr.filter { $0 % newP != 0 }
+    }
+
+    return primes
+}
+print("Последовательность простых чисел:")
+print(getPrimes(arrPassed: Array(2...100)))
+
