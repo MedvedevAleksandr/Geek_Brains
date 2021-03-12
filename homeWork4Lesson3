@@ -1,0 +1,70 @@
+import UIKit
+
+enum carAction {
+    case setEngineState(Bool)
+    case setWindowsState(Bool)
+    case loadCargo(Int)
+}
+
+
+struct sportCar {
+    let mark: String
+    let year: Int
+    let trunkVolume: Int
+    var trunk: Int
+    var engineIsStarted: Bool
+    var windowsAreOpen: Bool
+    var trunkIsFull: Bool
+    
+    
+    mutating func handleAction(action: carAction) {
+        
+        switch action {
+        case .loadCargo(let amount):
+            if (trunk + amount) <= trunkVolume && trunk < trunkVolume {
+                while trunk < trunkVolume {
+                    trunk += amount
+                    trunkIsFull = true // при достижении равенста параметров trunk u trunkVolume параметр trunkIsFull внутри переменной myCar поменяет свое значение
+            }
+            } else if (trunk + amount) >= trunkVolume {
+                print("В багажнике недостаточно места для груза. Вес груза составляет \(amount) кг, объем свободного места в багажнике - \((trunkVolume) - (trunk)) кг. Для вашего груза не хватает \((amount) - ((trunkVolume) - (trunk))) кг свободного места")
+            }
+            print("В багажник загружено \(trunk) кг груза")
+            if trunk > trunkVolume {
+                print("Багажник перегружен. В нем находится \((trunk) - (trunkVolume)) лишних кг груза.")
+            }
+       
+        case .setEngineState(var state):
+            engineIsStarted = state
+            if state {
+                print("Двигатель запущен")
+            } else {
+                print("Двигатель остановлен")
+            }
+        
+        case .setWindowsState(var state):
+            windowsAreOpen = state
+            if state {
+                print("Окна открыты ")
+            } else {
+                print("Окна закрыты")
+            }
+        }
+    }
+}
+var myCar = sportCar(mark: "Mini", year: 2010, trunkVolume: 200, trunk: 191, engineIsStarted: false, windowsAreOpen: true, trunkIsFull: false)
+myCar.handleAction(action: .loadCargo(10)) // после этого действия в переменной myCar параметр trunk поменяет свое значение, это можно увидеть при выводе переменной myCar на консоль
+myCar.handleAction(action: .setEngineState(true)) // аналогично - параметр engineIsStarted меняет свое значение
+myCar.handleAction(action: .setWindowsState(false)) // аналогично - параметр windowsAreOpen меняет свое значение
+print(myCar)
+
+
+struct truckCar {
+    let mark: String
+    let year: Int
+    let trunkVolume: Int
+    let engineIsStarted: Bool
+    let windowsAreOpen: Bool
+    let trunkIsFull: Bool
+}
+let truck = truckCar(mark: "Volvo", year: 2017, trunkVolume: 4000, engineIsStarted: true, windowsAreOpen: false, trunkIsFull: false)
