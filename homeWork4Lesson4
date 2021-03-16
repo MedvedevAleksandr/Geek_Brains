@@ -1,0 +1,163 @@
+import UIKit
+
+enum sportAction {
+    case refuel(Int)
+    case setDoorsState(Bool)
+    case setHeadlightsState(Bool)
+}
+
+enum truckAction {
+    case seats(Int)
+    case cargo(Int)
+}
+
+class Car {
+    var year: Int
+    var mark: String
+    var horsePower: Int
+    var wheels: Int
+    init(year: Int, mark: String, hp: Int, wheels: Int) {
+        self.year = year
+        self.mark = mark
+        self.horsePower = hp
+        self.wheels = wheels
+    }
+    
+}
+
+class SportCar: Car {
+    
+    var color: String
+    var sprintTime: Double
+    var fuelInTank: Int
+    var tankVolume: Int
+    var tankIsFull: Bool
+    var doorsAreClosed: Bool
+    var headlightsAreTurnedOn: Bool
+    init(color: String, sprintTime: Double, fuelInTank: Int, tankVolume: Int, tankIsFull: Bool, doorsAreClosed: Bool, headlightsAreTurnedOn: Bool) {
+        self.color = color
+        self.sprintTime = sprintTime
+        self.fuelInTank = fuelInTank
+        self.tankVolume = tankVolume
+        self.tankIsFull = tankIsFull
+        self.doorsAreClosed = doorsAreClosed
+        self.headlightsAreTurnedOn = headlightsAreTurnedOn
+        super.init(year: 2021, mark: "Ferrari", hp: 450, wheels: 4)
+    }
+    func handleAction(action: sportAction) {
+        if fuelInTank <= tankVolume {
+            print("В бак заправлено \(fuelInTank) л топлива. До полного бака не хватает \(tankVolume - fuelInTank) л")
+        switch action {
+        case .refuel(let amount):
+            if amount <= 0 {
+                print("Невозможно заправить 0 литров. Введите число больше 0.")
+                break
+            }
+            if (fuelInTank + amount) <= tankVolume && fuelInTank < tankVolume {
+                while fuelInTank < tankVolume {
+                    fuelInTank += amount
+                    tankIsFull = true
+                }
+            } else if (fuelInTank + amount) > tankVolume {
+                print("В бак не может быть заправлено \(amount) л топлива.")
+                break
+            }
+            print("Заправка произведена. Теперь у нас полный бак.")
+        case .setDoorsState(var state):
+            doorsAreClosed = state
+        if state {
+            print("Двери закрыты")
+        } else {
+            print("Закройте двери")
+        }
+        case .setHeadlightsState(var state):
+            headlightsAreTurnedOn = state
+        if state {
+            print("Фары включены, можно начинать движение")
+        } else {
+            print("Перед началом движения включите фары")
+        }
+    }
+}
+}
+}
+
+let sport = SportCar(color: "Red", sprintTime: 4.4, fuelInTank: 40, tankVolume: 60, tankIsFull: false, doorsAreClosed: false, headlightsAreTurnedOn: true)
+sport.handleAction(action: .refuel(2))
+sport.fuelInTank
+
+let anotherSport = SportCar(color: "Black", sprintTime: 3.6, fuelInTank: 70, tankVolume: 70, tankIsFull: true, doorsAreClosed: true, headlightsAreTurnedOn: false)
+anotherSport.color
+anotherSport.fuelInTank
+anotherSport.tankIsFull
+
+print("==============================")
+print(" ")
+
+
+class TruckCar: Car {
+    
+    var trunkVolume: Int
+    var seats: Int
+    var trunkIsFull: Bool
+    var cargoInTrunk: Int
+    init(trunkVolume: Int, seats: Int, trunkIsFull: Bool, cargoInTrunk:Int) {
+        self.trunkVolume = trunkVolume
+        self.seats = seats
+        self.trunkIsFull = trunkIsFull
+        self.cargoInTrunk = cargoInTrunk
+        super.init(year: 2018, mark: "Volvo", hp: 340, wheels: 8)
+    }
+    func handleAction(action: truckAction) {
+        switch action {
+        case .cargo(let amount):
+            if cargoInTrunk < trunkVolume {
+                print("Есть свободное место для груза. Можно загрузить \(trunkVolume - cargoInTrunk) т груза")
+            } else if cargoInTrunk == trunkVolume {
+                print("Машина полностью загружена, свободного места нет")
+            }
+            if cargoInTrunk > trunkVolume {
+                print("Машина перегружена. Масса лишнего груза - \(cargoInTrunk - trunkVolume) т")
+                break
+            }
+            if amount <= 0 {
+                print("Масса груза не может быть меньше либо равна 0")
+                break
+            }
+            if (cargoInTrunk + amount) <= trunkVolume && cargoInTrunk < trunkVolume {
+                while cargoInTrunk < trunkVolume {
+                cargoInTrunk += amount
+                    if cargoInTrunk == trunkVolume {
+                        trunkIsFull = true
+                        print("Машина полностю загружена")
+                    } else if cargoInTrunk > trunkVolume {
+                        trunkIsFull = true
+                        print("Машина перегружена. Было загружено \(cargoInTrunk - trunkVolume) т лишнего груза")
+                    }
+                }
+            } else if (cargoInTrunk + amount) > trunkVolume {
+                print("В кузове недостаточно места для груза. Вес груза составляет \(amount) т, объем свободного места в багажнике - \((trunkVolume) - (cargoInTrunk)) т. Для вашего груза не хватает \((amount) - ((trunkVolume) - (cargoInTrunk))) т свободного места")
+            }
+            
+        case .seats(let amount):
+            if amount == 1 {
+                print("В кабине нет свободных мест")
+            } else if amount > 1 {
+                print("В кабине \(amount - 1) свободных мест")
+            } else {
+                break
+            }
+        }
+    }
+}
+
+let truck = TruckCar(trunkVolume: 40, seats: 3, trunkIsFull: false, cargoInTrunk: 39)
+truck.handleAction(action: .cargo(2))
+truck.handleAction(action: .seats(3))
+
+print("=========================")
+
+let anotherTruck = TruckCar(trunkVolume: 35, seats: 4, trunkIsFull: false, cargoInTrunk: 30)
+anotherTruck.handleAction(action: .cargo(4))
+anotherTruck.cargoInTrunk
+anotherTruck.trunkIsFull
