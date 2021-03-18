@@ -1,0 +1,127 @@
+import Foundation
+
+protocol Car {
+    var wheels: Int { get }
+    var engineType: String { get }
+    var typeOfCar: String { get }
+    var numberOfSeats: Int { get }
+    var windowsState: Bool { get }
+    var engineState: Bool { get }
+}
+
+extension Car {
+func stateOfWindows() -> String {
+    if windowsState {
+        return "Windows are open"
+    } else {
+        return "Windows are closed"
+    }
+}
+func stateOfEngine() -> String {
+    if engineState {
+        return "Engine is on"
+    } else {
+        return "Engine is of"
+    }
+}
+}
+class Truck: Car, CustomStringConvertible {
+    var description: String {
+        return """
+\(stateOfWindows()),
+\(stateOfEngine()),
+\(isFueledUp()),
+wheels: \(wheels), engineType: \(engineType), typeOfCar: \(typeOfCar), numberOfSeats: \(numberOfSeats), mark: \(mark), trunkVolume: \(trunkVolume)
+"""
+    }
+    
+    var windowsState: Bool = false
+    
+    var engineState: Bool = true
+    
+    var wheels: Int = 8
+    
+    var engineType: String = "Disel"
+    
+    var typeOfCar: String = "Truck"
+    
+    var numberOfSeats: Int = 3
+    
+    var mark: String
+    var trunkVolume: Int
+    var fueledUp: Bool
+    
+    init(mark: String, trunkVolume: Int, fueledUp: Bool) {
+        self.mark = mark
+        self.trunkVolume = trunkVolume
+        self.fueledUp = fueledUp
+}
+}
+extension Truck {
+    func isFueledUp() -> String {
+        if fueledUp {
+            return "The truck is fueled up"
+        } else {
+            return "The truck should be fueled up"
+        }
+    }
+}
+
+let firstTruck = Truck(mark: "Volvo", trunkVolume: 40, fueledUp: true)
+let secondTruck = Truck(mark: "Scania", trunkVolume: 35, fueledUp: false)
+
+print(firstTruck)
+print("=====================")
+print(secondTruck)
+
+
+class SportCar: Car, CustomStringConvertible {
+    var description: String {
+        return """
+\(stateOfWindows()),
+\(stateOfEngine()),
+\(fastest()),
+wheels: \(wheels), engineType: \(engineType), typeOfCar: \(typeOfCar), numberOfSeats: \(numberOfSeats), mark: \(mark), countryOfOrigin: \(countryOfOrigin), price: \(price)
+"""
+    }
+    
+    var windowsState: Bool = false
+    
+    var engineState: Bool = true
+    
+    var wheels: Int = 4
+    
+    var engineType: String = "Petrol"
+    
+    var typeOfCar: String = "sportCar"
+    
+    var numberOfSeats: Int = 2
+    
+    var countryOfOrigin: String
+    var price: Int
+    var mark: String
+    var isTheFastest: Bool
+    
+    init(mark: String, countryOfOrigin: String, price: Int, isTheFastest: Bool) {
+        self.mark = mark
+        self.countryOfOrigin = countryOfOrigin
+        self.price = price
+        self.isTheFastest = isTheFastest
+}
+}
+extension SportCar {
+    func fastest() -> String {
+        if isTheFastest {
+            return "The fastest car in the world"
+        } else {
+            return "There is faster car exists"
+        }
+    }
+}
+
+let firstSportCar = SportCar(mark: "Ferrari", countryOfOrigin: "Italy", price: 120_000, isTheFastest: false)
+let secondSportCar = SportCar(mark: "Bugatti", countryOfOrigin: "France", price: 1_000_000, isTheFastest: true)
+
+print(firstSportCar)
+print("===================")
+print(secondSportCar)
