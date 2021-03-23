@@ -1,0 +1,52 @@
+import Foundation
+
+protocol Marks {
+    var historyMarks: [Double] { get }
+    var mathMarks: [Double] { get }
+    var chemistryMarks: [Double] { get }
+}
+
+func gpaDictionary<T: Marks>(array: [T], array2: [T], array3: [T]) -> [Double] {
+    var historyGPA = 0.0
+    for mark in array {
+        historyGPA = (mark.historyMarks.reduce(0, +)) / Double(mark.historyMarks.count)
+    }
+    var mathGPA = 0.0
+    for mark in array2 {
+        mathGPA = (mark.mathMarks.reduce(0, +)) / Double(mark.mathMarks.count)
+        
+    }
+    var chemistryGPA = 0.0
+    for mark in array3 {
+        chemistryGPA = (mark.chemistryMarks.reduce(0, +)) / Double(mark.chemistryMarks.count)
+    }
+    var arrayOfGPA = [historyGPA, mathGPA, chemistryGPA]
+    var gpa = ((arrayOfGPA.reduce(0, +)) / Double(arrayOfGPA.count))
+    return [historyGPA, mathGPA, chemistryGPA]
+}
+
+class Andrey: Marks {
+    var historyMarks: [Double]
+    var mathMarks: [Double]
+    var chemistryMarks: [Double]
+    init(historyMarks: [Double], mathMarks: [Double], chemistryMarks: [Double]) {
+        self.historyMarks = historyMarks
+        self.mathMarks = mathMarks
+        self.chemistryMarks = chemistryMarks
+    }
+}
+
+let andrey = Andrey(historyMarks: [4, 4, 5, 5], mathMarks: [3, 3, 4, 5, 5], chemistryMarks: [4, 4, 3, 3])
+
+gpaDictionary(array: [andrey], array2: [andrey], array3: [andrey])
+print("Средние оценки Андрея: \(gpaDictionary(array: [andrey], array2: [andrey], array3: [andrey]))")
+andrey.mathMarks.append(3)
+print("Средние оценки Андрея: \(gpaDictionary(array: [andrey], array2: [andrey], array3: [andrey]))")
+andrey.chemistryMarks = andrey.chemistryMarks.filter{$0 < 4}
+print("Средние оценки Андрея: \(gpaDictionary(array: [andrey], array2: [andrey], array3: [andrey]))")
+andrey.historyMarks = andrey.historyMarks.map{$0 + 1}
+print("Средние оценки Андрея: \(gpaDictionary(array: [andrey], array2: [andrey], array3: [andrey]))")
+andrey.historyMarks[0] = 10
+andrey.historyMarks
+print("Средние оценки Андрея: \(gpaDictionary(array: [andrey], array2: [andrey], array3: [andrey]))")
+
