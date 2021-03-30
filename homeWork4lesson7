@@ -1,0 +1,41 @@
+import Foundation
+
+enum ProgressOfStudent: Error {
+    case cannotEnter
+    case payedEducation
+    case freeEducation
+}
+
+var marks:[Double] = [4, 5, 4, 4, 4, 5, 5, 5, 5]
+print("Ваш средний балл равен \(marks.reduce(0, +) / Double(marks.count))")
+
+func badMarks() -> Bool {
+    return ((marks.reduce(0, +)) / Double(marks.count)) < 4
+    }
+func goodMarks() -> Bool {
+    return ((marks.reduce(0, +)) / Double(marks.count)) >= 4 && ((marks.reduce(0, +)) / Double(marks.count)) <= 4.5
+    }
+func exellentMarks() -> Bool {
+    return ((marks.reduce(0, +)) / Double(marks.count)) > 4.5
+    }
+
+func enterUniversity() throws {
+        guard !badMarks() else {
+            throw ProgressOfStudent.cannotEnter
+        }
+        guard !goodMarks() else {
+            throw ProgressOfStudent.payedEducation
+        }
+        guard !exellentMarks() else {
+            throw ProgressOfStudent.freeEducation
+        }
+    }
+do {
+    try enterUniversity()
+} catch ProgressOfStudent.cannotEnter {
+    print("Ваш средний балл слишком низкий для поступления в ВУЗ")
+} catch ProgressOfStudent.payedEducation {
+    print("Вы можете поступить на платное обучение")
+}  catch ProgressOfStudent.freeEducation {
+    print("Вы можете бесплатно обучаться в ВУЗе")
+}
